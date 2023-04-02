@@ -1,16 +1,11 @@
-package net.javaguides.hibernate.entity;
+package wood.mike.hibernate.entity;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "instructor")
@@ -30,8 +25,9 @@ public class Instructor {
     @Column(name = "email")
     private String email;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    private List < Course > courses = new ArrayList < Course > ();
+    //@OneToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL)
+    private Set< Course > courses = new HashSet<>();
 
     public Instructor() {
 
@@ -75,11 +71,11 @@ public class Instructor {
         this.email = email;
     }
 
-    public List < Course > getCourses() {
+    public Set < Course > getCourses() {
         return courses;
     }
 
-    public void setCourses(List < Course > courses) {
+    public void setCourses(Set < Course > courses) {
         this.courses = courses;
     }
 }

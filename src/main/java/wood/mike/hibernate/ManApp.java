@@ -1,24 +1,46 @@
-package net.javaguides.hibernate;
+package wood.mike.hibernate;
 
-import net.javaguides.hibernate.dao.InstructorDao;
-import net.javaguides.hibernate.entity.Course;
-import net.javaguides.hibernate.entity.Instructor;
+import wood.mike.hibernate.dao.CourseDao;
+import wood.mike.hibernate.dao.InstructorDao;
+import wood.mike.hibernate.entity.Course;
+import wood.mike.hibernate.entity.Instructor;
 
 public class ManApp {
-	public static void main(String[] args) {
+	InstructorDao instructorDao;
 
-		InstructorDao instructorDao = new InstructorDao();
-		
-		Instructor instructor = new Instructor("Ramesh", "Fadatare", "ramesh@javaguides.com");
+	CourseDao courseDao;
+
+	public static void main(String[] args) {
+		new ManApp();
+	}
+
+	public ManApp() {
+		instructorDao = new InstructorDao();
+		courseDao = new CourseDao();
+		tests();
+	}
+
+	private void tests() {
+		testCreateAll();
+	}
+
+	private void testCreateAll() {
+		Instructor instructor = new Instructor("Gordon", "Grey", "gordon@earth.com");
 		instructorDao.saveInstructor(instructor);
-		
-		// create some courses
+
 		Course tempCourse1 = new Course("Learn Spring Boot");
 		instructor.getCourses().add(tempCourse1);
-		
+
 		Course tempCourse2 = new Course("Learn hibernate");
 		instructor.getCourses().add(tempCourse2);
-		
+
 		instructorDao.saveInstructor(instructor);
+
+		instructor.getCourses().remove(tempCourse2);
+
+		instructorDao.updateInstructor(instructor);
+
+		Instructor instructorFromDb = instructorDao.getInstructor(instructor.getId());
+		assert instructorFromDb.getCourses().size() == 1;
 	}
 }

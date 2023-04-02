@@ -1,20 +1,20 @@
-package net.javaguides.hibernate.dao;
+package wood.mike.hibernate.dao;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import wood.mike.hibernate.entity.Instructor;
+import wood.mike.hibernate.util.HibernateUtil;
 
-import net.javaguides.hibernate.entity.Instructor;
-import net.javaguides.hibernate.util.HibernateUtil;
+import javax.persistence.EntityGraph;
+import java.util.HashMap;
+import java.util.Map;
 
 public class InstructorDao {
 	public void saveInstructor(Instructor instructor) {
 		Transaction transaction = null;
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-			// start a transaction
 			transaction = session.beginTransaction();
-			// save the student object
 			session.save(instructor);
-			// commit transaction
 			transaction.commit();
 		} catch (Exception e) {
 			if (transaction != null) {
@@ -27,11 +27,8 @@ public class InstructorDao {
 	public void updateInstructor(Instructor instructor) {
 		Transaction transaction = null;
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-			// start a transaction
 			transaction = session.beginTransaction();
-			// save the student object
 			session.update(instructor);
-			// commit transaction
 			transaction.commit();
 		} catch (Exception e) {
 			if (transaction != null) {
@@ -45,17 +42,13 @@ public class InstructorDao {
 
 		Transaction transaction = null;
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-			// start a transaction
 			transaction = session.beginTransaction();
-
-			// Delete a instructor object
 			Instructor instructor = session.get(Instructor.class, id);
 			if (instructor != null) {
 				session.delete(instructor);
 				System.out.println("instructor is deleted");
 			}
 
-			// commit transaction
 			transaction.commit();
 		} catch (Exception e) {
 			if (transaction != null) {
@@ -70,11 +63,8 @@ public class InstructorDao {
 		Transaction transaction = null;
 		Instructor instructor = null;
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-			// start a transaction
 			transaction = session.beginTransaction();
-			// get an instructor object
-			instructor = session.get(Instructor.class, id);
-			// commit transaction
+			instructor = session.find(Instructor.class, id, getProperties(session));
 			transaction.commit();
 		} catch (Exception e) {
 			if (transaction != null) {
@@ -83,5 +73,13 @@ public class InstructorDao {
 			e.printStackTrace();
 		}
 		return instructor;
+	}
+
+	private Map<String, Object> getProperties(Session session) {
+		EntityGraph<Instructor> entityGraph = session.createEntityGraph(Instructor.class);
+		entityGraph.addAttributeNodes("courses");
+		Map<String, Object> properties = new HashMap<>();
+		properties.put("javax.persistence.fetchgraph", entityGraph);
+		return properties;
 	}
 }

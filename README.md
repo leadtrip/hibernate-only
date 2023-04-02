@@ -1,0 +1,1 @@
+Java project testing Hibernate in isolation

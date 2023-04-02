@@ -1,4 +1,4 @@
-package net.javaguides.hibernate.entity;
+package wood.mike.hibernate.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

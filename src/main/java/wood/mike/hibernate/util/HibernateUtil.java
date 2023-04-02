@@ -1,4 +1,4 @@
-package net.javaguides.hibernate.util;
+package wood.mike.hibernate.util;
 
 import java.util.Properties;
 
@@ -7,9 +7,9 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.cfg.Environment;
 import org.hibernate.service.ServiceRegistry;
+import wood.mike.hibernate.entity.Course;
+import wood.mike.hibernate.entity.Instructor;
 
-import net.javaguides.hibernate.entity.Course;
-import net.javaguides.hibernate.entity.Instructor;
 
 /**
  * Java based configuration
@@ -27,15 +27,12 @@ public class HibernateUtil {
 				// Hibernate settings equivalent to hibernate.cfg.xml's properties
 				Properties settings = new Properties();
 				settings.put(Environment.DRIVER, "com.mysql.cj.jdbc.Driver");
-				settings.put(Environment.URL, "jdbc:mysql://localhost:3306/hibernate_db?useSSL=false");
-				settings.put(Environment.USER, "root");
-				settings.put(Environment.PASS, "root");
-				settings.put(Environment.DIALECT, "org.hibernate.dialect.MySQL5InnoDBDialect");
-
+				settings.put(Environment.URL, "jdbc:mysql://localhost:3306/db?useSSL=false&allowPublicKeyRetrieval=true");
+				settings.put(Environment.USER, "hibonly");
+				settings.put(Environment.PASS, "hibonly");
+				settings.put(Environment.DIALECT, "org.hibernate.dialect.MySQL57Dialect");
 				settings.put(Environment.SHOW_SQL, "true");
-
 				settings.put(Environment.CURRENT_SESSION_CONTEXT_CLASS, "thread");
-
 				settings.put(Environment.HBM2DDL_AUTO, "create-drop");
 
 				configuration.setProperties(settings);
